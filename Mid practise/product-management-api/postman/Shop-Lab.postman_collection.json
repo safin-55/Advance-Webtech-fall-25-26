@@ -1,0 +1,442 @@
+{
+  "info": {
+    "name": "Shop Lab - Products and Employees",
+    "description": "Run each folder in order. Requires the local NestJS API. Two records are created per resource. Actual database-generated IDs are captured automatically. All employee data is dummy.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Products - screenshot sequence",
+      "item": [
+        {
+          "name": "01 - Create product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Notebook\",\n  \"category\": \"Stationery\",\n  \"price\": 120.5,\n  \"quantity\": 50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "const p=pm.response.json();",
+                  "pm.collectionVariables.set(\"productId\",p.id);",
+                  "pm.test(\"Generated ID and saved values\",()=>{pm.expect(p.id).to.be.a(\"number\");pm.expect(p.name).to.eql(\"Notebook\");});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "01b - Create second product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Blue Pen\",\n  \"category\": \"Stationery\",\n  \"price\": 15,\n  \"quantity\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"secondProductId\",pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Get all products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/products"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"At least two saved products\",()=>{const rows=pm.response.json();pm.expect(rows.length).to.be.at.least(2);pm.expect(rows.some(p=>p.id===Number(pm.collectionVariables.get(\"productId\")))).to.eql(true);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Get product by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Actual generated ID\",()=>pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get(\"productId\"))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Update product",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/{{productId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 135.75,\n  \"quantity\": 40\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Fields updated\",()=>{const p=pm.response.json();pm.expect(p.price).to.eql(135.75);pm.expect(p.quantity).to.eql(40);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Confirm product update",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Updated values persisted\",()=>{const p=pm.response.json();pm.expect(p.price).to.eql(135.75);pm.expect(p.quantity).to.eql(40);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Delete product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Deleted correct ID\",()=>pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get(\"productId\"))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Confirm product deletion",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/products"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Deleted product absent and second product remains\",()=>{const ids=pm.response.json().map(p=>p.id);pm.expect(ids).not.to.include(Number(pm.collectionVariables.get(\"productId\")));pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"secondProductId\")));});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Employees - screenshot sequence",
+      "item": [
+        {
+          "name": "01 - Create employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/employees",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Amina Rahman\",\n  \"email\": \"amina.{{employeeRun}}@example.com\",\n  \"phone\": \"+8801712345678\",\n  \"password\": \"Demo1234!\",\n  \"age\": 25,\n  \"yearsOfWorking\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"employeeRun\",Date.now()+\"-\"+Math.floor(Math.random()*1000000));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "const e=pm.response.json();pm.collectionVariables.set(\"employeeId\",e.id);",
+                  "pm.test(\"Generated ID, password is write-only\",()=>{pm.expect(e.id).to.be.a(\"number\");pm.expect(e).not.to.have.property(\"password\");});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "01b - Create second employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/employees",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Farhan Ali\",\n  \"email\": \"farhan.{{employeeRun}}@example.com\",\n  \"phone\": \"+8801912345678\",\n  \"password\": \"Demo1234!\",\n  \"age\": 28,\n  \"yearsOfWorking\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"secondEmployeeId\",pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Get all employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/employees"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"At least two employees without passwords\",()=>{const rows=pm.response.json();pm.expect(rows.length).to.be.at.least(2);rows.forEach(e=>pm.expect(e).not.to.have.property(\"password\"));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Get employee by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/employees/{{employeeId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Actual generated ID\",()=>pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get(\"employeeId\"))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Update employee",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/employees/{{employeeId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+8801812345678\",\n  \"yearsOfWorking\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Employee updated\",()=>{const e=pm.response.json();pm.expect(e.phone).to.eql(\"+8801812345678\");pm.expect(e.yearsOfWorking).to.eql(4);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Confirm employee update",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/employees/{{employeeId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Changed values saved\",()=>{const e=pm.response.json();pm.expect(e.phone).to.eql(\"+8801812345678\");pm.expect(e.yearsOfWorking).to.eql(4);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Delete employee",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/employees/{{employeeId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Deleted correct ID\",()=>pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get(\"employeeId\"))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Confirm employee deletion",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/employees"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Deleted employee absent; second remains\",()=>{const ids=pm.response.json().map(e=>e.id);pm.expect(ids).not.to.include(Number(pm.collectionVariables.get(\"employeeId\")));pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"secondEmployeeId\")));});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
