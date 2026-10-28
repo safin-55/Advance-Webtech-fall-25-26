@@ -1,0 +1,49 @@
+{
+  "name": "product-management-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NestJS Lab Task 1: database-backed product and employee CRUD APIs",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.22.3"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.cjs",
+    "build": "nest build",
+    "prestart": "npm run setup",
+    "start": "nest start",
+    "prestart:dev": "npm run setup",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "prestart:prod": "npm run setup",
+    "start:prod": "node dist/main.js",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test --test-concurrency=1 test/*.test.cjs",
+    "test:e2e": "npm test",
+    "format": "prettier --write src test scripts *.json",
+    "format:check": "prettier --check src test scripts *.json"
+  },
+  "dependencies": {
+    "@nestjs/common": "11.2.8",
+    "@nestjs/config": "4.0.4",
+    "@nestjs/core": "11.2.8",
+    "@nestjs/platform-express": "11.2.8",
+    "@nestjs/swagger": "11.4.7",
+    "@nestjs/typeorm": "11.0.3",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.2",
+    "mysql2": "^3.15.0",
+    "pg": "^8.16.3",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "sql.js": "^1.13.0",
+    "typeorm": "0.3.31"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^24.0.0",
+    "prettier": "^3.6.0",
+    "typescript": "~5.9.3"
+  }
+}

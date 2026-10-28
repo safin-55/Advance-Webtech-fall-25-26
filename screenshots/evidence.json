@@ -1,0 +1,283 @@
+{
+  "source": "Actual requests from Postman Lightweight API Client",
+  "records": [
+    {
+      "method": "POST",
+      "url": "http://localhost:3000/products",
+      "requestBody": {
+        "name": "Notebook",
+        "category": "Stationery",
+        "price": 120.5,
+        "quantity": 50
+      },
+      "status": 201,
+      "responseBody": {
+        "id": 1,
+        "name": "Notebook",
+        "category": "Stationery",
+        "price": 120.5,
+        "quantity": 50
+      },
+      "screenshot": "01-create.png"
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3000/products",
+      "requestBody": {
+        "name": "Blue Pen",
+        "category": "Stationery",
+        "price": 15,
+        "quantity": 100
+      },
+      "status": 201,
+      "responseBody": {
+        "id": 2,
+        "name": "Blue Pen",
+        "category": "Stationery",
+        "price": 15,
+        "quantity": 100
+      },
+      "screenshot": null
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3000/products",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": [
+        {
+          "id": 1,
+          "name": "Notebook",
+          "category": "Stationery",
+          "price": 120.5,
+          "quantity": 50
+        },
+        {
+          "id": 2,
+          "name": "Blue Pen",
+          "category": "Stationery",
+          "price": 15,
+          "quantity": 100
+        }
+      ],
+      "screenshot": "02-get-all.png"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3000/products/1",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": {
+        "id": 1,
+        "name": "Notebook",
+        "category": "Stationery",
+        "price": 120.5,
+        "quantity": 50
+      },
+      "screenshot": "03-get-by-id.png"
+    },
+    {
+      "method": "PATCH",
+      "url": "http://localhost:3000/products/1",
+      "requestBody": {
+        "price": 135.75,
+        "quantity": 40
+      },
+      "status": 200,
+      "responseBody": {
+        "id": 1,
+        "name": "Notebook",
+        "category": "Stationery",
+        "price": 135.75,
+        "quantity": 40
+      },
+      "screenshot": "04-update.png"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3000/products/1",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": {
+        "id": 1,
+        "name": "Notebook",
+        "category": "Stationery",
+        "price": 135.75,
+        "quantity": 40
+      },
+      "screenshot": "05-confirm-update.png"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://localhost:3000/products/1",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": {
+        "message": "Product deleted successfully.",
+        "id": 1
+      },
+      "screenshot": "06-delete.png"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3000/products",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": [
+        {
+          "id": 2,
+          "name": "Blue Pen",
+          "category": "Stationery",
+          "price": 15,
+          "quantity": 100
+        }
+      ],
+      "screenshot": "07-confirm-delete.png"
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3000/employees",
+      "requestBody": {
+        "name": "Amina Rahman",
+        "email": "amina@example.com",
+        "phone": "+8801712345678",
+        "password": "Demo1234!",
+        "age": 25,
+        "yearsOfWorking": 3
+      },
+      "status": 201,
+      "responseBody": {
+        "id": 1,
+        "name": "Amina Rahman",
+        "email": "amina@example.com",
+        "phone": "+8801712345678",
+        "age": 25,
+        "yearsOfWorking": 3
+      },
+      "screenshot": "employees/01-create.png"
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3000/employees",
+      "requestBody": {
+        "name": "Farhan Ali",
+        "email": "farhan@example.com",
+        "phone": "+8801912345678",
+        "password": "Demo1234!",
+        "age": 28,
+        "yearsOfWorking": 5
+      },
+      "status": 201,
+      "responseBody": {
+        "id": 2,
+        "name": "Farhan Ali",
+        "email": "farhan@example.com",
+        "phone": "+8801912345678",
+        "age": 28,
+        "yearsOfWorking": 5
+      },
+      "screenshot": null
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3000/employees",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": [
+        {
+          "id": 1,
+          "name": "Amina Rahman",
+          "email": "amina@example.com",
+          "phone": "+8801712345678",
+          "age": 25,
+          "yearsOfWorking": 3
+        },
+        {
+          "id": 2,
+          "name": "Farhan Ali",
+          "email": "farhan@example.com",
+          "phone": "+8801912345678",
+          "age": 28,
+          "yearsOfWorking": 5
+        }
+      ],
+      "screenshot": "employees/02-get-all.png"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3000/employees/1",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": {
+        "id": 1,
+        "name": "Amina Rahman",
+        "email": "amina@example.com",
+        "phone": "+8801712345678",
+        "age": 25,
+        "yearsOfWorking": 3
+      },
+      "screenshot": "employees/03-get-by-id.png"
+    },
+    {
+      "method": "PATCH",
+      "url": "http://localhost:3000/employees/1",
+      "requestBody": {
+        "phone": "+8801812345678",
+        "yearsOfWorking": 4
+      },
+      "status": 200,
+      "responseBody": {
+        "id": 1,
+        "name": "Amina Rahman",
+        "email": "amina@example.com",
+        "phone": "+8801812345678",
+        "age": 25,
+        "yearsOfWorking": 4
+      },
+      "screenshot": "employees/04-update.png"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3000/employees/1",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": {
+        "id": 1,
+        "name": "Amina Rahman",
+        "email": "amina@example.com",
+        "phone": "+8801812345678",
+        "age": 25,
+        "yearsOfWorking": 4
+      },
+      "screenshot": "employees/05-confirm-update.png"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://localhost:3000/employees/1",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": {
+        "message": "Employee deleted successfully.",
+        "id": 1
+      },
+      "screenshot": "employees/06-delete.png"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3000/employees",
+      "requestBody": null,
+      "status": 200,
+      "responseBody": [
+        {
+          "id": 2,
+          "name": "Farhan Ali",
+          "email": "farhan@example.com",
+          "phone": "+8801912345678",
+          "age": 28,
+          "yearsOfWorking": 5
+        }
+      ],
+      "screenshot": "employees/07-confirm-delete.png"
+    }
+  ]
+}
